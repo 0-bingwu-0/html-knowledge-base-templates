@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why cultivating agency matters more than cultivating skills in the AI era | Max Schoening (Head of Product, Notion)</title>
+
+  <style>
+    :root {
+      --bg: #fafaf7;
+      --paper: #ffffff;
+      --rule: rgba(24, 24, 27, 0.09);
+      --rule-soft: rgba(24, 24, 27, 0.05);
+      --text: #18181b;
+      --text-soft: #3f3f46;
+      --muted: #71717a;
+      --muted-soft: #a1a1aa;
+      --accent: #b45309;
+      --accent-soft: rgba(180, 83, 9, 0.08);
+      --quote-bg: #f5f5f0;
+      --quote-text: #52525b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 88px 24px 140px;
+    }
+
+    /* ── Header ────────────────────────────── */
+    .episode-header {
+      margin-bottom: 72px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .episode-header h1 {
+      margin: 0 0 32px;
+      font-size: 42px;
+      line-height: 1.15;
+      letter-spacing: -0.032em;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .episode-meta {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .episode-meta li {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .episode-meta li + li::before {
+      content: "";
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted-soft);
+    }
+
+    .episode-meta a {
+      color: var(--text-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .episode-meta a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .section-label {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 8px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-label .title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .section-label .count {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Q&A as list ───────────────────────── */
+    .qa-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .qa-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--rule);
+      counter-increment: qitem;
+      position: relative;
+    }
+
+    .qa-list { counter-reset: qitem; }
+
+    .qa-item:last-child {
+      border-bottom: none;
+    }
+
+    .qa-num {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted-soft);
+      font-variant-numeric: tabular-nums;
+      padding-top: 7px;
+      transition: color 0.25s ease;
+    }
+
+    .qa-num::before {
+      content: counter(qitem, decimal-leading-zero);
+    }
+
+    .qa-item:hover .qa-num {
+      color: var(--accent);
+    }
+
+    .qa-body {
+      min-width: 0;
+    }
+
+    .qa-summary {
+      list-style: none;
+      cursor: pointer;
+      display: block;
+    }
+
+    .qa-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .qa-header-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .qa-question {
+      margin: 0;
+      flex: 1;
+      font-size: 20px;
+      line-height: 1.45;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .qa-answer {
+      margin: 0;
+      font-size: 15.5px;
+      line-height: 1.7;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    /* Prevent blue selection highlight when toggling */
+    .qa-summary {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .qa-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s ease;
+      user-select: none;
+      position: relative;
+    }
+
+    /* horizontal line of "+" */
+    .qa-toggle::before {
+      content: "";
+      width: 9px;
+      height: 1.4px;
+      background: currentColor;
+      border-radius: 1px;
+    }
+
+    /* vertical line of "+" — hidden when open */
+    .qa-toggle::after {
+      content: "";
+      position: absolute;
+      width: 1.4px;
+      height: 9px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+
+    details[open] .qa-toggle::after {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+
+    .qa-summary:hover .qa-toggle {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    details[open] .qa-toggle {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    blockquote {
+      margin: 22px 0 0;
+      padding: 22px 24px 22px 26px;
+      border-left: 2px solid var(--accent);
+      background: var(--quote-bg);
+      border-radius: 2px 10px 10px 2px;
+      color: var(--quote-text);
+      font-size: 14px;
+      line-height: 1.78;
+      white-space: pre-wrap;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    /* Entrance animation */
+    .episode-header,
+    .section-label,
+    .qa-item {
+      animation: fadeUp 0.55s ease backwards;
+    }
+
+    .episode-header { animation-delay: 0s; }
+    .section-label { animation-delay: 0.08s; }
+    .qa-item:nth-child(1) { animation-delay: 0.12s; }
+    .qa-item:nth-child(2) { animation-delay: 0.16s; }
+    .qa-item:nth-child(3) { animation-delay: 0.2s; }
+    .qa-item:nth-child(4) { animation-delay: 0.24s; }
+    .qa-item:nth-child(5) { animation-delay: 0.28s; }
+    .qa-item:nth-child(6) { animation-delay: 0.32s; }
+    .qa-item:nth-child(n+7) { animation-delay: 0.36s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 56px 20px 96px;
+      }
+
+      .episode-header {
+        margin-bottom: 48px;
+      }
+
+      .episode-header h1 {
+        font-size: 28px;
+      }
+
+      .episode-meta {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .episode-meta li + li::before {
+        display: none;
+      }
+
+      .qa-item {
+        grid-template-columns: 36px 1fr;
+        padding: 24px 0;
+      }
+
+      .qa-question {
+        font-size: 17px;
+      }
+
+      .qa-answer {
+        font-size: 14.5px;
+      }
+
+      blockquote {
+        padding: 18px 18px 18px 20px;
+        font-size: 13.5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="episode-header">
+      <div class="eyebrow">Lenny&rsquo;s Podcast</div>
+      <h1>Why cultivating agency matters more than cultivating skills in the AI era | Max Schoening (Head of Product, Notion)</h1>
+
+      <ul class="episode-meta">
+        <li>Max Schoening</li>
+        <li>May 3, 2026</li>
+        <li><a href="https://youtu.be/mCO-D3pkviM">youtu.be/mCO-D3pkviM</a></li>
+      </ul>
+    </header>
+
+    <div class="section-label">
+      <span class="title">Q&amp;A Notes</span>
+      <span class="count">12 questions</span>
+    </div>
+
+    <ol class="qa-list">
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">In the AI era, does agency matter more than the skills AI now hands you?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">Yes — once AI lends everyone the skills, what separates winners is treating the world as malleable and pushing change on it.</p>
+          </summary>
+          <blockquote>Host: What do you find is key to people being successful in this new world? Like, you know, there&rsquo;s a lot of designers, a lot of PMs at Notion. What do you find is separating the ones that are thriving and will do well in this coming future versus ones that may fall behind?
+
+Max: I suspect that this is also something that has always been the case and we would just categorize this as founder versus not and do you start a startup versus not, which is agency. I think before it was very easy to always say well I will never be able to do this because insert skill issue, and I think we&rsquo;re realizing that even if you have the skills at your fingertips because now, I don&rsquo;t know, an AGI-adjacent model helps you, the thing that matters is agency. And I don&rsquo;t think agency is very evenly distributed in the world. I think people who have true agency and they understand that the world around them is malleable will do great, and the folks who stick to &ldquo;tell me really what does it mean to be a PM, what does it mean to be a designer, and what&rsquo;s my job as an engineer&rdquo; — I think that will be much harder. Cultivate agency, I think that&rsquo;s the thing.
+
+Host: Is there a good example at Notion of someone just leaning into that?
+
+Max: Ninos — this was surprising to me, especially on the design team — have way above average agency compared to other places I&rsquo;ve worked at.
+
+Host: And Ninos, by the way, are Notion employees.
+
+Max: Yes. One example would be someone like Brian Lovin. The way I would describe it is, and I tell this to myself as well: do you drive Notion like it&rsquo;s stolen? We&rsquo;re not the founders, we&rsquo;re coming in after there was already insane product market fit, but you can still contribute to the company in a way that you feel agency and you&rsquo;re not sort of just like &ldquo;what&rsquo;s your role.&rdquo; Brian obviously already blurs engineering and design, but he also is probably our number one recruiter in terms of &ldquo;hey, this is what the org needs, I&rsquo;m going to go out and find someone.&rdquo;
+
+Max: Eric Lou is another one. He went from writing a lot of strategy docs to asking me, &ldquo;hey, if you started a startup would you hire me?&rdquo; And I said, &ldquo;well, not in the first 10, I don&rsquo;t need a product manager.&rdquo; He&rsquo;s like, &ldquo;okay, I&rsquo;m going to work on the skills so that you would hire me in the first five.&rdquo; That led to first spending more time in Figma instead of writing long PRDs, and now it&rsquo;s &ldquo;why do I have to do the Figma thing, can&rsquo;t I just build the prototype and show you what I think?&rdquo; Those are signs of high agency: I&rsquo;m going to change the role to how I think it should be.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Why bother writing a PRD when a janky working demo now takes the same effort?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">The first 10% of every project is now free — ship a demo to react to, not a memo to argue over.</p>
+          </summary>
+          <blockquote>Host: I want to come back to how product building is changing. Your job a couple years ago — what&rsquo;s most changed? What part do you not do anymore, or do a lot more of now with AI emerging as a big part of your process?
+
+Max: I think the first 10% of every project are now free. That&rsquo;s how I would describe it. So there is no point for most things to, for example, write a — the thing has changed. There&rsquo;s no point in writing a PRD if you can just do the janky version and the &ldquo;here&rsquo;s the demo of what I think we should build.&rdquo;
+
+Host: That&rsquo;s such an interesting way to frame it — the thinking-through of it, you can go a lot further really quickly.
+
+Max: Yes. It takes almost no effort to now build the first version of a startup, right? Or like the first 0.8. And then the last, or maybe even if you&rsquo;re generous and say the first 90% are now done, the last 10% are still actually 90%. That&rsquo;s always the hardest. So it&rsquo;s cheaper to just explore a lot of paths. You can now afford to say I&rsquo;m going to send off 10 agents to explore 10 different things and then see if I was right. We used to say this at GitHub in our product reviews a lot, which is demos not memos. And then we would say give me something to react to — if you&rsquo;re going to write a PR, just write the change log or the blog post that a user would read. Now it&rsquo;s much easier to give people something to react to, as in, yeah, here&rsquo;s the version of the product, and it&rsquo;s like &ldquo;okay, what if we did it this other way?&rdquo; &ldquo;Oh yeah, here&rsquo;s that version.&rdquo; That just builds iteration into the product much earlier. Waterfall is sort of — why bother?</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Should designers and PMs code mainly to ship, or to understand the medium?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">To understand the medium — the point is mastering agent loops as material, not pushing tweaks to production.</p>
+          </summary>
+          <blockquote>Host: There&rsquo;s all this talk about designers should be shipping code, PMs should be shipping code. And then there&rsquo;s the flip side — engineers can move so fast that designers and PMs are squeezed more and more, so maybe their time is better spent making sure things move in a direction that makes sense for the business. What&rsquo;s your thoughts on that balance?
+
+Max: I actually don&rsquo;t care at all whether designers write code that lands in production. The reason I like thinking in code is because it forces you to consider the medium. If then all of that gets thrown out, great. So for example, the two extremes would be: if a PM or a designer knows how to tweak with, pick your favorite — they&rsquo;re all the same, Codex, Claude Code, whatever — if they know how to tweak small details of the UI but they don&rsquo;t understand how an agent loop works, I would much rather take the designer or PM that deeply has an affinity for understanding how agent loops work and can design those, than someone who can write traditional software and tweak styles. And that&rsquo;s really hard, because I think the only way you can actually get to understanding agent loops is if you build them in the material they&rsquo;re made of, which is currently code, and increasingly so — if you look at all the coding harnesses, basically the operating systems of the &rsquo;90s, right? So I think that&rsquo;s why I care that people code: not because of the utility of shipping to production, but because it forces you to really interrogate the material that you&rsquo;re designing with.
+
+Host: So it&rsquo;s more the prototyping use case than &ldquo;we&rsquo;re going to be shipping more features because we can.&rdquo;
+
+Max: It tends to be that once you awaken someone to a new material, at some point they also blur the lines and write production code. But I think it&rsquo;s really important not to forget that the reason why is to become a master of the material, not a cog in the delivery mechanism for the idea.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Will users really rebuild every SaaS tool now that AI makes coding cheap?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">No — what people pay for in SaaS is maintenance and tending, not the interface they could clone in a weekend.</p>
+          </summary>
+          <blockquote>Host: I want to come back to malleable software from the perspective of SaaS and the SaaS apocalypse. There&rsquo;s all this talk about we will not need SaaS tools any longer, we&rsquo;ll build all our own tools. You have a hot take there.
+
+Max: If you just think about SaaS — the problem is the moment you have an acronym, it means a lot of very specific things. If you&rsquo;re going to say, &ldquo;hey, is this type of SaaS that we&rsquo;ve built in the 2010s just as relevant as it was?&rdquo; — it would be silly to say nothing&rsquo;s going to change. A lot of SaaS in the 2010s was a very fancy form around a spreadsheet, and the thing it did is it guided people in the right direction to fill out that form, as in it is less malleable than a spreadsheet. The &ldquo;as a service&rdquo; part is the thing that actually matters. I don&rsquo;t think most people actually want to maintain the full stack of software. Whenever I see someone — and I am someone here — say &ldquo;oh, I just rebuilt this piece of software,&rdquo; I&rsquo;ve tried rebuilding Notion in a weekend for myself just to push at the edges of frustrating things. I don&rsquo;t think people want that. People don&rsquo;t want to go hunting either; they just want to go to Costco and have the steak in styrofoam packaging and pretend it wasn&rsquo;t hunting in the first place. Bret Taylor says this too — software is like a garden, you need to tend to it, and the thing you pay for in the &ldquo;as a service&rdquo; is the maintenance and a bunch of specialists thinking really hard about a problem. So I don&rsquo;t think that&rsquo;s going away.
+
+Max: What I would probably say is that tools will become more general. We internally joked — Joanna Stern, a journalist, recently tweeted &ldquo;thanks to Notion AI I finally understand and use Notion.&rdquo; I don&rsquo;t know what that says about Notion. But to me this is a great example: Notion wasn&rsquo;t SaaS in the traditional way, it&rsquo;s kind of hard to get started, but because of AI now people have a tutor essentially and can build more things. So my suspicion is software will go more back into the &rsquo;90s of general tools — word processor, spreadsheet, FileMaker Pro — but those will still be &ldquo;as a service.&rdquo; And then you&rsquo;ll still have specialized tools around security and so on. So to some degree the SaaS apocalypse is greatly exaggerated. At the same time, are things going to stay the same? Of course not.
+
+Host: I just had the head of product for Claude Code on the podcast, Cat Wu, and she talks about how Slack is basically the OS for Anthropic. Everything runs through Slack. You think of all companies that would just &ldquo;we&rsquo;ll just build our own&rdquo; — no, they&rsquo;re using Slack like crazy. Nobody wants to rebuild a tool like Slack, and Workday is another example.
+
+Max: One of the great things about the US is actually specialization. I get to spend dollars on something like Notion because it&rsquo;s not that expensive compared to me building it. Why would I waste my time? That&rsquo;s not going to go away.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">What separates great products from feature-soup mediocrity?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">Every great product has one tiny core superpower; piling on features never rescues a weak core.</p>
+          </summary>
+          <blockquote>Host: You&rsquo;ve built so many successful great loved products. What do you think matters in the end to building a successful product, if you had to boil it down?
+
+Max: Here&rsquo;s the one trick that I&rsquo;ll sell a course next week. First, I would say that I have contributed to some really great products, not built them. The longer I&rsquo;m in this, the more I care about what&rsquo;s the team that&rsquo;s building the thing. I don&rsquo;t think that there is a through-line out of the things I&rsquo;ve contributed to where I can pinpoint it. You can&rsquo;t say that the best design always wins. You can&rsquo;t even say the best engineering always wins.
+
+Max: I think one of the biggest pitfalls is if you get into the loop of &ldquo;if I just add one more thing to the product it&rsquo;ll be finally great.&rdquo; If I really look at the truly great products, they all have one tiny core that is so exceptionally good. And that&rsquo;s a combination of you stumbled upon it by luck and then the market agreed. What&rsquo;s the tiny core? Multi-touch on the phone. GitHub is probably the pull request — this idea that anyone can suggest something to you. At Notion it&rsquo;s the blocks and the slash commands. Figma — it&rsquo;s the seamless blend between real-time collaboration and not. All the great products have something tiny that is a superpower. Versus &ldquo;oh yeah, if we have this suite of things and we add one more thing, it&rsquo;ll finally be useful&rdquo; — that never works.
+
+Host: For GitHub it was the PR. Other examples from other places you worked?
+
+Max: At Heroku for sure I think it was the &ldquo;git push heroku master.&rdquo; At the time it was really hard to deploy apps — nobody — it&rsquo;s sad because people don&rsquo;t remember Heroku, but I have to explain it as it&rsquo;s the Vercel, it&rsquo;s the first Vercel. &ldquo;git push master&rdquo; was this very simple one-liner that went from the thing on my computer, now I have a URL, and that&rsquo;s so intoxicating that everything else flows from there.
+
+Max: Dropbox is a great one. It was the little menu bar icon that was so good at syncing that you could even use it as a symbol for &ldquo;do I have internet or not,&rdquo; because it was better at figuring out whether you had an internet connection than your Mac itself. It just &mdash; that&rsquo;s the job. Get out of the way and all my files are always there. And then for years they tried to increase the surface area and I kept thinking &ldquo;no no no, push it back. I don&rsquo;t want more, this is the only job I want from you.&rdquo; The tiny core is the thing that makes great products.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Is taste actually mysterious, or just back-propagation through enough reps?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">Taste is a virtual machine in your head that predicts how your in-group reacts — trained, like a model, by relentless reps with feedback.</p>
+          </summary>
+          <blockquote>Host: This idea of knowing when things are obviously good — there&rsquo;s an element of having taste, and this word taste comes up a lot now. AI is building the thing, our job is taste. Do you have any advice for someone that&rsquo;s like &ldquo;I want to develop my taste&rdquo;?
+
+Max: First, I don&rsquo;t know if I have great taste. I look at others and how they exercise taste, and I think the common thing is iterations with feedback. It takes a really long time to build up taste in a specific domain. Then you often can extrapolate into other domains with that taste. But if I had to describe what taste actually means: it&rsquo;s you&rsquo;re able to run — this is such a nerdy way of describing it — you&rsquo;re able to run a virtual machine in your head where, given an idea, you can predict for a certain in-group whether they&rsquo;re going to like it or not. The extreme is, if you are the only person on the planet that thinks something is good, is it good? No. But maybe you also don&rsquo;t need to build a product for 8 billion people. You decide what your in-group is and then how good do you get at emulating how they will react. To do that you just have to do reps. It&rsquo;s almost like training a model, which is also why I&rsquo;m not super — you know, the whole &ldquo;the one thing we have left is taste&rdquo; — I&rsquo;m not so sure. If you think about the loop, it&rsquo;s input, idea, how do people react. That seems very back-propagation. It seems very much how we train models too.
+
+Host: So you build taste by doing the thing, getting feedback, iterating.
+
+Max: Look at Japan, Japanese craftspeople. They&rsquo;ve just been painting the bowl for however long. It just takes a while. Increase the frequency of reps — that&rsquo;s what I would say.
+
+Host: There&rsquo;s no way to speedrun this. People with the best taste have been doing this for a long time.
+
+Max: The one thing I&rsquo;ve noticed specifically for designers: the designers that have high taste are the ones that both have side projects where they&rsquo;re responsible end to end, and they&rsquo;re also always tinkering with some new app. They&rsquo;re the annoying person who&rsquo;s like &ldquo;hey, what if we tried this in our team?&rdquo; It&rsquo;s exposure to other people&rsquo;s ideas. It&rsquo;s also really important to surround yourself with tasteful things so that you feel like the thing you&rsquo;re making is lacking. At Notion all our conference rooms are named after famous objects — the first typewriter, the Macintosh, a Porsche 911 — and inevitably when I&rsquo;m in one of the rooms, nothing I&rsquo;m doing amounts to this. I got to do better.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Which white-collar role does AI actually transform next after engineering?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">None directly — instead, software engineering bleeds into every other role as the cost of writing code falls to zero.</p>
+          </summary>
+          <blockquote>Host: AI has completely transformed the work of a software engineer. Two years ago versus today, it&rsquo;s completely different. Almost all your code is now AI. Which role do you think AI transforms next? Is it marketing? Growth? Sales? Design?
+
+Max: Okay, this is maybe a hot take, and it&rsquo;s very likely that the labs are like &ldquo;haha, look at this guy.&rdquo; My take: it&rsquo;s very clear at least empirically that models are getting better at coding at some exponential rate, and I don&rsquo;t think that&rsquo;s changing. I&rsquo;m not that impressed with the progress in any other domain. I don&rsquo;t think they&rsquo;ve gotten significantly better at writing. I still very much hate reading AI slop writing. But the thing is — Marc Andreessen, right, software is eating the world. Well, if the cost of software and creating software and encoding business practices in code (I literally mean the old software 1.0, no-code) — if that cost is very much going to zero, we will just have a lot more of it. In that case it&rsquo;s more that software engineering will go into all the other domains, not necessarily that there is some other yeah — like, our folks in HR are automating a lot of things because now they don&rsquo;t have to bug an engineering team to write that code. When the model companies say &ldquo;oh, we&rsquo;ve made great progress in this other non-coding domain,&rdquo; I&rsquo;m like, you just applied coding principles to this domain, which is wonderful, but that&rsquo;s what it&rsquo;s getting better at. So I just think software-is-eating-the-world is going to accelerate.
+
+Host: That is a really interesting take. So it&rsquo;s basically the acceleration of software eating the world, versus AI going to do a different kind of job. The head of product for Codex said the same thing — every agent that will win is going to be a coding agent that builds the thing it needs.
+
+Max: Yes. All agents — if you look at all the harnesses, whether it&rsquo;s the open source ones or the ones from the model companies, ours as well — they all resemble a coding agent.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Why did automated code review tools flop while Claude Code and Codex took off?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">Auto-reviewers roast you in public; coding agents let you publish &ldquo;you + Claude&rdquo; work and keep the bragging rights.</p>
+          </summary>
+          <blockquote>Host: When you say the products that win often are the ones that make you feel like superheroes, I always think about Kathy Sierra.
+
+Max: It rings a bell.
+
+Host: She was just something that really stuck with me, and I think it&rsquo;s informed a lot of how people think about product. Her whole pitch was instead of talking about your product and how amazing it is, it&rsquo;s about &ldquo;we will make you a superhero.&rdquo; Like Mario getting the little flower and having superpowers, versus &ldquo;look at our incredible product.&rdquo;
+
+Max: I think it&rsquo;s actually a thing the coding companies had to learn when they tried to move to — like, why do automatic code review tools not work that well? I think this is actually a subtle thing: you push your code publicly to or publicly within your organization, and then a thing roasts your code and tells you how terrible of a developer you are. Versus if you think about what Claude Code and Codex does — you&rsquo;re coding and then you publish the work of you plus Claude, and you get bragging rights of how good of a developer you are. So the superhero stuff is definitely true.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Once models hit &ldquo;good enough,&rdquo; does more raw intelligence actually matter?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">For most knowledge work, no — society is rarely capped by intelligence, and faster, cheaper, local models will beat smarter ones.</p>
+          </summary>
+          <blockquote>Max: The other thing that I&rsquo;m curious about is the automation versus augmentation fork. If I look at the really really fast models like Spark, and I forget what the Anthropic variant is —
+
+Host: Haiku?
+
+Max: No, sorry, it&rsquo;s — you still get a smart one, it&rsquo;s Opus but like Opus fast or something. You very quickly run up a bill of like $3,000 a day. But the speed of inference really changes things. If the inference is slow, then you&rsquo;re queuing up a bunch of jobs and walking around the building thinking about other things and then come back and review. Versus if it&rsquo;s nearly instant. Are you still going to do this? Is this multitasking the frenetic thing that we currently have going on actually the thing that gives us flow state? Well, no. But if the inference becomes instant, do we get back to direct manipulation? Do you instantly mold the clay that is the code? I don&rsquo;t know. It depends on model capabilities — is there a saturation on intelligence or not? The analogy I like to give is a retina display: after I can&rsquo;t see the pixels, I can&rsquo;t see the pixels. I don&rsquo;t need you to make them smaller. Is it not the same for a lot of cognitive tasks — at some level of intelligence, I don&rsquo;t need more, and instead I want a different modality and faster.
+
+Host: So smarter models will not significantly impact how teams operate because they&rsquo;ve gotten so good, and it&rsquo;s other blockers now, like UX.
+
+Max: In general, I&rsquo;m actually very curious. The labs operate under the assumption that people will always want the smartest model, the frontier model, and I think for certain domains that&rsquo;s probably true — cancer research, spending millions on something. But that&rsquo;s not how we run companies either. We don&rsquo;t have a PhD for everything. For a lot of knowledge work tasks, probably sometime we&rsquo;ll get to good enough, and once you get to good enough you can optimize other things — run locally, cheaper, faster. The absolute intelligence thing doesn&rsquo;t interest me very much. I think society is largely not capped by intelligence. Tyler Cowen says something similar, I don&rsquo;t want to put words in his mouth. I&rsquo;m much more interested in the exoskeleton versus the &ldquo;I have a god in a box in some data center somewhere and we&rsquo;re all twiddling our thumbs.&rdquo;</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Have we already invented UBI and just dressed it up as knowledge work?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">Yes — knowledge work is basically UBI, because what we actually need to live is a fraction of what our jobs pretend to justify.</p>
+          </summary>
+          <blockquote>Host: As we close out, there&rsquo;s something I want to get — you have this hot take on universal basic income. There&rsquo;s this idea that with AI emerging, we may not need to work, we&rsquo;ll all just get some UBI and enjoy our life. And you have this hot take that maybe we already have universal basic income. What&rsquo;s going on?
+
+Max: Yeah, so please extend me some grace here, because I both mean it as a joke and maybe somewhat real — it just depends on which altitude of human nature you look at. My take is that we already have universal basic income. It&rsquo;s called knowledge work. And I don&rsquo;t exclude my job from it. But if you really look at what do we actually need to live and to be content, it is a lot less. We&rsquo;ve built this hierarchy and all these jobs and all these things that are absolutely necessary. To me it&rsquo;s like, yeah, we already have it. It&rsquo;s UBI. And we&rsquo;ll come up with other ways in which we as humans — because we&rsquo;re the most important species in the universe — insert ourselves into the conversation around agents. Will it look the same? I don&rsquo;t know. But we are so inventive, and we come up with new reasons of why we absolutely must be in that loop.
+
+Host: People have always joked like we get paid so much just to sit in front of a computer and put the right sorts of words and letters into this thing, and we get paid a lot of money to do it. And now it&rsquo;s like &ldquo;oh, maybe I won&rsquo;t be paid this much in the future because AI is going to take over.&rdquo; Your take there is just like this is a pretty sweet gig we already got. Enjoy the UBI.
+
+Max: Yes. All things considered, how lucky are we? I&rsquo;m sitting in an air conditioned room right now talking to you, having a good time. Not everybody has that luck, but I think the folks discussing this the most are the ones that are in the bucket of luck.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">Does first-mover advantage still matter, or is being right what wins?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">You have to be right, not first — AirPods, the iPod, and Anthropic all won late by simply doing the thing right.</p>
+          </summary>
+          <blockquote>Host: I heard you&rsquo;ve also talked about how being first doesn&rsquo;t matter that much either.
+
+Max: You have to be right, not first. I mean, there are probably elements of network effects, and perhaps now with training models it does make sense if you have a head start. But I think it&rsquo;s overrated. My favorite example is Bluetooth headphones were kind of crappy, and then you have the AirPods — they connect and so on — and they weren&rsquo;t the first. They weren&rsquo;t the first MP3 player either. You just got to do it right. I don&rsquo;t think being first is all that useful. Currently, because it&rsquo;s so hard to keep people&rsquo;s attention, we try to — &ldquo;oh, how do I go viral? How do I do the cool thing?&rdquo; — and I&rsquo;m like, yep, durability matters. Think of how would you build IKEA, a generational company that is not concerning itself with whatever is trending on Twitter today.
+
+Host: Speaking of models, a good example is Anthropic, which was way behind, started after OpenAI, got less funding, and now is just killing it and dominating.
+
+Max: The thing I find most impressive — obviously you give the CEO a bunch of credit, but Dario — is that he wasn&rsquo;t just lucky once at OpenAI. He did the same thing twice and it was successful twice. That&rsquo;s actually really cool.</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">How should engineers tell whether their agent setup is actually any good?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">Every manual edit to the code should feel a little like a bug in the verification loop — not like normal workflow.</p>
+          </summary>
+          <blockquote>Host: What have you seen actually work within Notion to get people to significantly change the way they work?
+
+Max: Depends on the role. Roles that are perhaps further away from engineering, you don&rsquo;t have to convince them all that much because they&rsquo;re like &ldquo;whoa, I have superpowers now, look at this amazing thing I&rsquo;ve just built,&rdquo; because the capability gap of what they were able to do before versus after is so huge that it&rsquo;s intoxicating. And then you have to almost do the opposite, which is like &ldquo;yes, but do you understand why we can&rsquo;t merge this PR?&rdquo;
+
+Max: On the engineering side, something Simon Last talks about a lot is that any manual intervention in code is kind of bad. You probably did something wrong in the verifiability loop and in the software factory. This excludes obviously reviewing code — I&rsquo;m still very much in camp &ldquo;you should probably put more effort into reviewing code than you do.&rdquo; But at least on the writing side, every time there is a human intervention, it should feel a little bit like a bug. I think that&rsquo;s a good litmus test for how agent-pilled you are.</blockquote>
+        </details>
+      </li>
+    </ol>
+  </main>
+</body>
+</html>

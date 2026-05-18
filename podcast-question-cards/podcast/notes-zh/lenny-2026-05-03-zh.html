@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 时代,培养 agency 比培养技能更重要 | Max Schoening(Head of Product, Notion)</title>
+
+  <style>
+    :root {
+      --bg: #fafaf7;
+      --paper: #ffffff;
+      --rule: rgba(24, 24, 27, 0.09);
+      --rule-soft: rgba(24, 24, 27, 0.05);
+      --text: #18181b;
+      --text-soft: #3f3f46;
+      --muted: #71717a;
+      --muted-soft: #a1a1aa;
+      --accent: #b45309;
+      --accent-soft: rgba(180, 83, 9, 0.08);
+      --quote-bg: #f5f5f0;
+      --quote-text: #52525b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 88px 24px 140px;
+    }
+
+    /* ── Header ────────────────────────────── */
+    .episode-header {
+      margin-bottom: 72px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .episode-header h1 {
+      margin: 0 0 32px;
+      font-size: 42px;
+      line-height: 1.15;
+      letter-spacing: -0.032em;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .episode-meta {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .episode-meta li {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .episode-meta li + li::before {
+      content: "";
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted-soft);
+    }
+
+    .episode-meta a {
+      color: var(--text-soft);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .episode-meta a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .section-label {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 8px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-label .title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .section-label .count {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Q&A as list ───────────────────────── */
+    .qa-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .qa-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--rule);
+      counter-increment: qitem;
+      position: relative;
+    }
+
+    .qa-list { counter-reset: qitem; }
+
+    .qa-item:last-child {
+      border-bottom: none;
+    }
+
+    .qa-num {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted-soft);
+      font-variant-numeric: tabular-nums;
+      padding-top: 7px;
+      transition: color 0.25s ease;
+    }
+
+    .qa-num::before {
+      content: counter(qitem, decimal-leading-zero);
+    }
+
+    .qa-item:hover .qa-num {
+      color: var(--accent);
+    }
+
+    .qa-body {
+      min-width: 0;
+    }
+
+    .qa-summary {
+      list-style: none;
+      cursor: pointer;
+      display: block;
+    }
+
+    .qa-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .qa-header-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .qa-question {
+      margin: 0;
+      flex: 1;
+      font-size: 20px;
+      line-height: 1.45;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .qa-answer {
+      margin: 0;
+      font-size: 15.5px;
+      line-height: 1.7;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    /* Prevent blue selection highlight when toggling */
+    .qa-summary {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .qa-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s ease;
+      user-select: none;
+      position: relative;
+    }
+
+    /* horizontal line of "+" */
+    .qa-toggle::before {
+      content: "";
+      width: 9px;
+      height: 1.4px;
+      background: currentColor;
+      border-radius: 1px;
+    }
+
+    /* vertical line of "+" — hidden when open */
+    .qa-toggle::after {
+      content: "";
+      position: absolute;
+      width: 1.4px;
+      height: 9px;
+      background: currentColor;
+      border-radius: 1px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+
+    details[open] .qa-toggle::after {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+
+    .qa-summary:hover .qa-toggle {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    details[open] .qa-toggle {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    blockquote {
+      margin: 22px 0 0;
+      padding: 22px 24px 22px 26px;
+      border-left: 2px solid var(--accent);
+      background: var(--quote-bg);
+      border-radius: 2px 10px 10px 2px;
+      color: var(--quote-text);
+      font-size: 14px;
+      line-height: 1.78;
+      white-space: pre-wrap;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    /* Entrance animation */
+    .episode-header,
+    .section-label,
+    .qa-item {
+      animation: fadeUp 0.55s ease backwards;
+    }
+
+    .episode-header { animation-delay: 0s; }
+    .section-label { animation-delay: 0.08s; }
+    .qa-item:nth-child(1) { animation-delay: 0.12s; }
+    .qa-item:nth-child(2) { animation-delay: 0.16s; }
+    .qa-item:nth-child(3) { animation-delay: 0.2s; }
+    .qa-item:nth-child(4) { animation-delay: 0.24s; }
+    .qa-item:nth-child(5) { animation-delay: 0.28s; }
+    .qa-item:nth-child(6) { animation-delay: 0.32s; }
+    .qa-item:nth-child(n+7) { animation-delay: 0.36s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 56px 20px 96px;
+      }
+
+      .episode-header {
+        margin-bottom: 48px;
+      }
+
+      .episode-header h1 {
+        font-size: 28px;
+      }
+
+      .episode-meta {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .episode-meta li + li::before {
+        display: none;
+      }
+
+      .qa-item {
+        grid-template-columns: 36px 1fr;
+        padding: 24px 0;
+      }
+
+      .qa-question {
+        font-size: 17px;
+      }
+
+      .qa-answer {
+        font-size: 14.5px;
+      }
+
+      blockquote {
+        padding: 18px 18px 18px 20px;
+        font-size: 13.5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="episode-header">
+      <div class="eyebrow">Lenny&rsquo;s Podcast</div>
+      <h1>AI 时代,培养 agency 比培养技能更重要 | Max Schoening(Head of Product, Notion)</h1>
+
+      <ul class="episode-meta">
+        <li>Max Schoening</li>
+        <li>2026 年 5 月 3 日</li>
+        <li><a href="https://youtu.be/mCO-D3pkviM">youtu.be/mCO-D3pkviM</a></li>
+      </ul>
+    </header>
+
+    <div class="section-label">
+      <span class="title">Q&amp;A 笔记</span>
+      <span class="count">12 个问题</span>
+    </div>
+
+    <ol class="qa-list">
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">在 AI 时代,agency 是否比 AI 现在能直接给你的技能更重要?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">是的——一旦 AI 把技能交到每个人手里,真正拉开差距的,是把世界当作可塑之物、主动去推动改变的态度。</p>
+          </summary>
+          <blockquote>Host: 你觉得在这个新世界里,人要成功的关键是什么?比如 Notion 里有很多设计师、很多 PM,你看到哪些特质会让一些人在未来脱颖而出,而另一些人可能掉队?
+
+Max: 我怀疑这其实一直都是这样的,我们以前可能会用 founder 还是非 founder、要不要去做 startup 来区分,本质上就是 agency。以前很容易说:我永远做不到这个,因为我缺某项技能,但我们正在意识到,即便所有技能都触手可及——因为现在有一个接近 AGI 的模型在帮你——真正重要的还是 agency。我觉得 agency 在这个世界上分布得并不均匀。那些真正具备 agency、并且理解周围世界是可塑的人,会做得非常好;而那些一直停留在“你能不能明确告诉我,PM 到底是干什么的、designer 到底是干什么的、我作为工程师的工作到底是什么”的人,会过得辛苦得多。培养 agency,我觉得就是关键。
+
+Host: 在 Notion 有没有谁特别能体现这一点的好例子?
+
+Max: Ninos——这一点让我挺意外的,尤其是在设计团队里——他们的 agency 比我之前待过的任何地方都要高得多。
+
+Host: 顺便说一下,Ninos 就是 Notion 员工的简称。
+
+Max: 对。一个例子是 Brian Lovin。我会这样描述,而且我也常这样告诉自己:你开 Notion 这辆车,是不是像开一辆偷来的车那样开?我们不是 founder,我们是在已经有了很疯狂的 product-market fit 之后才加入的,但你仍然可以以一种你拥有 agency 的方式为公司做贡献,而不是停留在“我的 role 是什么”。Brian 显然已经在模糊工程和设计的边界,而且他大概是我们最厉害的招聘官——“嘿,这是组织需要的,我去把人找来”。
+
+Max: Eric Lou 是另一个例子。他从写大量 strategy doc 转向问我:“嘿,如果你做一个 startup,你会不会雇我?”我说:“嗯,前 10 个人里不会,我不需要 product manager。”他说:“好,那我就去练相关技能,让你愿意把我放进前 5 个人里。”这后来变成他从写长长的 PRD,改为在 Figma 里花更多时间,再变成“为什么我还要做 Figma 这一步,我能不能直接做出 prototype 给你看?”这些都是高 agency 的标志:我要把这个 role 塑造成我认为该有的样子。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">既然搞一个能跑的简陋 demo 已经和写文档差不多省力,为什么还要写 PRD?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">每个项目的前 10% 现在都是免费的——丢出一个可以让人反应的 demo,而不是一份需要争论的备忘录。</p>
+          </summary>
+          <blockquote>Host: 我想回到产品构建在如何变化这件事上。你几年前的工作——什么变得最多?哪部分你已经不再做了,或者由于 AI 成为流程的重要组成部分,现在做得更多了?
+
+Max: 我觉得每个项目的前 10% 现在都是免费的。我会这样描述。所以对大多数事情来说,已经没必要去写——这件事已经变了。如果你可以直接做一个简陋版本、说“这是我认为我们该做的东西的 demo”,就没必要再写 PRD 了。
+
+Host: 这个说法很有意思——把思考往前推这件事,可以非常快地走得很远。
+
+Max: 对。现在做一个 startup 的第一个版本几乎不费什么劲了,对吧?或者说是第一个 0.8。然后最后那部分——就算你慷慨一点,说前 90% 都已经搞定了,最后那 10% 实际上仍然是 90% 的工作量。这永远是最难的部分。所以你完全负担得起去探索很多条路径。你现在可以说:我派 10 个 agent 去探索 10 件不同的事,然后看看我哪个判断是对的。我们以前在 GitHub 的产品评审里经常说一句话:demos not memos。然后我们还会说:给我一个能让我反应的东西——如果你要写一份 PR(product review),就把它写成 change log,或者写成用户会读到的 blog post。现在让别人对一个东西做出反应容易多了,就是说,“嗯,这是产品的这个版本”,然后“好的,如果我们换一种方式做呢?”“噢,那是另一个版本”。这让迭代非常早就嵌进了产品里。Waterfall 这种方式——何必呢?</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">设计师和 PM 写代码,主要是为了交付,还是为了理解这种介质?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">是为了理解这种介质——重点是把 agent loop 当作材料去掌握,而不是把改动推到生产环境。</p>
+          </summary>
+          <blockquote>Host: 现在到处都在说,设计师应该写代码、PM 应该写代码。但反过来看,工程师又能跑得飞快,反而把设计师和 PM 越挤越紧,所以也许他们的时间更应该花在确保事情朝业务正确的方向走。你怎么看这种平衡?
+
+Max: 老实说,我根本不在意设计师写的代码会不会上到生产环境。我喜欢用代码去思考,是因为它逼你去考虑这种介质本身。如果之后这些代码都被扔掉,也很好。举个极端例子:如果一个 PM 或 designer 知道怎么用——随便你挑——Codex 也好,Claude Code 也好——去调一些 UI 的小细节,但他不理解 agent loop 是怎么运转的,我宁愿要一个真正深刻地理解 agent loop 是怎么回事、能去设计它们的 designer 或 PM,而不是一个会写传统软件、会调样式的人。这其实很难,因为我觉得真正理解 agent loop 的唯一办法是用它们的原材料去搭建,目前那种原材料就是代码,而且越来越是——你看看现在所有的 coding harness,基本上就是 90 年代的操作系统,对吧?所以这就是为什么我在意大家写代码:不是为了上生产环境的实用性,而是因为它逼你去真正审视你正在用来设计的那种材料。
+
+Host: 所以更多是 prototyping 的用途,而不是“因为我们能做了,我们就要 ship 更多 feature”。
+
+Max: 通常来说,一旦你让一个人意识到一种新材料,他们某种程度上也会模糊边界、去写生产代码。但我觉得很重要的一点是,别忘了为什么这么做——是为了成为这种材料的大师,而不是成为把想法交付出去的某个流水线上的螺丝钉。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">既然 AI 让写代码变便宜,用户真的会把每个 SaaS 工具都自己重做一遍吗?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">不会——人们在 SaaS 上付的钱是为了维护和打理,而不是为了那个他们周末就能克隆出来的界面。</p>
+          </summary>
+          <blockquote>Host: 我想从 SaaS 和所谓“SaaS apocalypse”的角度回到 malleable software 这个话题。现在到处都在说我们将不再需要 SaaS 工具,我们会自己搭所有工具。你对此有个 hot take。
+
+Max: 如果你只想 SaaS 这个词——问题在于,一旦你用了一个缩写,它就会代表一堆非常具体的东西。如果你要问“2010 年代我们造的那种 SaaS,现在还是不是同样相关?”——说什么都不会变,那当然是傻话。2010 年代很多 SaaS 本质上是给一张电子表格套了一个很花哨的表单,它的作用就是引导用户朝正确方向填这个表,也就是说它的可塑性反而比电子表格还差。“as a service”那部分才是真正重要的。我觉得大多数人根本不想自己维护整套软件栈。每当我看到有人——我自己也是其中之一——说“噢,我把这个软件重做了一遍”,我也确实试过用一个周末把 Notion 给自己重做一遍,只是为了对那些让我不爽的地方做些极限测试。我不觉得人们真的想要那种东西。人们也不想去打猎,他们只想去 Costco 把已经装在泡沫塑料盒里的牛排买回家,装作这一切跟打猎无关。Bret Taylor 也说过这一点——软件像一座花园,你需要去打理它,而你在“as a service”上付的钱,买的就是这种维护,以及一帮专家在认真琢磨一个具体问题。所以我不觉得这个会消失。
+
+Max: 我大概会说的是,工具会变得更通用。我们内部还开玩笑——记者 Joanna Stern 最近发推说“多亏了 Notion AI,我终于看懂、也会用 Notion 了”。我不知道这对 Notion 来说意味着什么。但对我来说,这就是一个很好的例子:Notion 不是传统意义上的 SaaS,上手挺难的,但因为有了 AI,人们现在等于有了一个家教,可以搭出更多东西。所以我的猜测是,软件会更回到 90 年代那种通用工具的样子——word processor、spreadsheet、FileMaker Pro——但它们仍然会是“as a service”。然后你仍然会有围绕安全等等的专用工具。所以从某种程度上说,SaaS apocalypse 被大大夸大了。同时,事情会不会保持原样?当然不会。
+
+Host: 我刚邀请了 Claude Code 的 head of product Cat Wu 上播客,她讲到 Slack 基本上是 Anthropic 的操作系统。所有事情都跑在 Slack 上。要说哪家公司最该“干脆自己做一个”——没有,他们疯狂地在用 Slack。没有人想重做一个像 Slack 这样的工具,Workday 是另一个例子。
+
+Max: 美国了不起的一点其实是分工。我能把钱花在 Notion 这样的东西上,是因为相比我自己造,它根本没多贵。我何必浪费时间?这件事不会消失。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">伟大的产品和那些堆功能的平庸产品,区别到底在哪儿?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">每一个伟大的产品都有一个极小的核心 superpower;不断往上堆 feature,从来救不了一个虚弱的核心。</p>
+          </summary>
+          <blockquote>Host: 你参与过这么多成功又被人喜爱的产品。如果让你浓缩一下,你觉得做出一款成功的产品,最终重要的是什么?
+
+Max: 这里有一个绝招,我下周就拿来开课卖。首先我得说,我是为一些非常出色的产品做出过贡献,但不是“做”了它们。我在这一行越久,越在乎做这件事的是什么样的团队。我也不觉得在我参与过的事情之间,能找到一条清晰的主线让我指出来说就是这条。你不能说设计最好的总会赢。你甚至不能说工程最好的总会赢。
+
+Max: 我觉得最大的陷阱之一,是你陷入“如果我再多加一个东西到产品里,它就终于变好了”的循环。如果我认真去看那些真正伟大的产品,它们都有一个极小的核心,那个核心做得异常出色。这是你运气好撞上的,加上市场认可的结合。这个极小的核心是什么?手机上的 multi-touch。GitHub 大概是 pull request——任何人都可以给你提建议的这个想法。在 Notion 是 block 和 slash command。Figma 是实时协作和非实时之间的无缝衔接。所有伟大的产品都有某个很小、但本身就是 superpower 的东西。而不是“嗯,我们有这一套东西,再加一个,它就终于有用了”——那从来不奏效。
+
+Host: GitHub 是 PR。你待过的其他地方还有什么例子?
+
+Max: 在 Heroku,毫无疑问就是 git push heroku master。那时候部署 app 真的很难——没人——挺遗憾的,大家已经不太记得 Heroku 了,我得这样解释:它是当时的 Vercel,是第一个 Vercel。git push master 是一行非常简单的命令,把我电脑上的东西变成一个 URL,这种感觉太让人上瘾了,其他的一切都从这里自然延伸出来。
+
+Max: Dropbox 是一个很好的例子。它就是那个菜单栏小图标,同步做得太好了,你甚至可以用它作为“我现在有没有网”的指示——它判断你有没有联网,比 Mac 自己还准。它就——这才是它的活儿。让开路,我的所有文件永远都在那里。然后这么多年他们一直试图扩大产品的边界,而我一直在想“不不不,推回去。我不想要更多,我只想从你这儿得到这一个功能”。那个极小的核心,就是让产品伟大的东西。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">taste 是真的很玄,还是说,只是足够多的重复练习里跑出来的 back-propagation?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">taste 就是你脑子里的一台虚拟机,能预测你所在的 in-group 会怎么反应——它和模型一样,是靠不断的反复练习加反馈训练出来的。</p>
+          </summary>
+          <blockquote>Host: 关于“知道什么时候东西显然好”这件事——里面有一种叫 taste 的东西,而 taste 这个词现在被反复提起。AI 在做事情,我们的工作是 taste。对一个说“我想培养自己的 taste”的人,你有什么建议?
+
+Max: 首先,我不知道自己是不是 taste 很好的人。我看别人怎么运用 taste,共同点就是带反馈的不断迭代。要在一个具体领域里建立起 taste 需要相当长的时间。然后你常常可以把这种 taste 外推到其他领域。如果让我描述 taste 到底是什么:你能够在脑子里运行——这种说法挺极客的——你能在脑子里跑一台虚拟机,给定一个想法,你能针对某个特定的 in-group 预测他们会不会喜欢。极端情况是:如果地球上只有你一个人觉得某样东西好,它就是好的吗?不是。但也许你也不需要去为 80 亿人做一个产品。你决定你的 in-group 是谁,然后看你能多准确地模拟他们的反应。要做到这一点,你就得不停地反复练。这几乎就是在训练一个模型,这也是我对“我们唯一剩下的就是 taste”那种说法持保留态度的原因。你想想这个循环:输入、想法、人们怎么反应。这看起来非常 back-propagation,看起来也非常像我们训练模型的方式。
+
+Host: 所以你培养 taste 的方法,就是做这件事、得到反馈、不断迭代。
+
+Max: 看日本,日本的工匠。他们就是在那个碗上不停地画,画了多久就画了多久。这就是需要时间。提高 reps 的频率——我会这样建议。
+
+Host: 没办法走捷径。taste 最好的人都是做了很久这件事的人。
+
+Max: 我专门针对设计师注意到一件事:taste 高的设计师,有两个特点——他们要么有从头到尾自己负责的个人项目,要么总是在折腾一些新的 app。他们就是那个烦人的人,“嘿,我们团队要不要试试这个?”这是对别人想法的暴露。还有一个很重要的是,把自己包围在有 taste 的东西之间,让你觉得自己正在做的东西还不够好。在 Notion,我们所有的会议室都以著名的物件命名——第一台打字机、Macintosh、Porsche 911——而每次我坐在其中一间里,都会感觉我现在做的任何事都比不上这些。我得做得更好。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">在工程之后,AI 真正会改造的下一个白领角色是哪一个?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">没有某一个被单独改造——而是随着写代码的成本趋近于零,软件工程会渗透进所有其他角色。</p>
+          </summary>
+          <blockquote>Host: AI 已经彻底改变了软件工程师的工作。两年前和今天完全不一样,你几乎所有代码现在都是 AI 写的。你觉得 AI 接下来会改造哪个角色?是 marketing?growth?sales?设计?
+
+Max: 好吧,这可能是一个 hot take,各大 lab 可能会觉得“哈哈,看看这家伙”。我的观点是:至少从经验上看,模型在 coding 上以某种指数级速度变得更好,这一点是非常清楚的,而且我不认为这会改变。其他领域的进步,我并没有那么 impressed。我不觉得它们在写作上变好了多少。我现在读 AI 写的那些 slop,仍然觉得非常难受。但关键是——Marc Andreessen 那句话,对吧,software is eating the world。如果做软件的成本、把业务规则用代码表达的成本(我说的就是老式的 software 1.0,就是 no-code 那种)——如果这部分成本快速趋近于零,那我们就会有多得多的软件。这种情况下,更多是软件工程渗透进所有其他领域,而不是说在某个其他领域忽然出现什么——比如我们 HR 的同事正在自动化大量事情,因为他们现在不用再去骚扰一个工程团队来帮他们写代码。当模型公司说“噢,我们在某个非编码领域取得了很大进展”,我心里想:你们其实是把编码原则应用到了那个领域上,这很好,但它真正在变好的还是编码这件事。所以我就觉得 software-is-eating-the-world 会加速。
+
+Host: 这真是个有意思的观点。所以本质是“软件吞噬世界”这件事在加速,而不是 AI 去做一份不一样的工作。Codex 的 head of product 也讲过同样的话——所有会赢的 agent 都会是一个 coding agent,它自己造它需要的东西。
+
+Max: 没错。所有的 agent——你去看所有的 harness,无论是开源的,还是模型公司做的,我们自己的也一样——它们看起来都像一个 coding agent。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">自动化 code review 工具为什么没火,而 Claude Code 和 Codex 却起飞了?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">自动 review 工具是在大庭广众下吐槽你;而 coding agent 让你发布的是“你 + Claude”一起完成的作品,光彩归你。</p>
+          </summary>
+          <blockquote>Host: 你说真正会赢的产品,常常是那些让你觉得自己是 superhero 的产品,我总是会想到 Kathy Sierra。
+
+Max: 这个名字我有印象。
+
+Host: 她当年讲的东西对我影响很大,我觉得它影响了很多人思考产品的方式。她的核心主张是:不要去谈你的产品有多牛,而是“我们会让你成为 superhero”。就像 Mario 吃到那朵小花获得超能力,而不是“你看我们的产品多了不起”。
+
+Max: 我觉得这一点其实是 coding 公司在尝试转型时不得不学到的——比如,为什么自动 code review 工具效果都不太好?我觉得这里有一个微妙之处:你把代码 push 到公开的地方,或者公开到你组织内部,然后一个东西在那儿对你的代码冷嘲热讽,告诉你你是个多糟糕的开发者。而 Claude Code 和 Codex 是怎么做的——你在写代码,然后你 publish 的是你加上 Claude 一起做的工作,你拿到的是“我是个多牛的开发者”的吹牛资本。所以那个 superhero 的说法肯定是对的。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">一旦模型“足够好”,更高的原始智力还重要吗?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">对大多数知识工作来说不重要——社会很少受制于智力,更快、更便宜、能跑在本地的模型,会赢过更聪明的模型。</p>
+          </summary>
+          <blockquote>Max: 另一件我很好奇的事是 automation 和 augmentation 的分岔。如果我看那些非常非常快的模型,比如 Spark,我一时想不起 Anthropic 那个是什么——
+
+Host: Haiku?
+
+Max: 不,不是,是——你拿到的还是一个聪明的模型,是 Opus,但是 Opus fast 还是什么类似的名字。你的账单一天很容易就跑到 $3,000。但推理速度真的会改变事情。如果推理慢,你就会同时排起一堆任务,然后在楼里逛来逛去想别的事,回来再 review。而如果推理几乎是瞬时的呢?你还会这么做吗?我们现在这种到处切换的紧张状态,真的是给我们带来心流的东西吗?当然不是。但如果推理变成瞬时的,我们会不会回到 direct manipulation?你会不会瞬间地、像捏黏土一样去塑形代码?我不知道。这取决于模型能力——智力会不会饱和?我喜欢用的类比是 retina display:一旦我看不到像素,我就看不到像素。我不需要你把它们做得更小。对很多认知任务来说是不是也一样——到了某个智力水平,我不需要更多,我反而想要的是另一种 modality 和更快。
+
+Host: 所以更聪明的模型,不会对团队运作有显著影响,因为它们已经足够好了,真正卡住的是别的东西,比如 UX。
+
+Max: 总的来说我其实很好奇。各个 lab 的运行假设是,人们永远会想要最聪明的模型、frontier model,我觉得在某些领域这大概是对的——癌症研究,或者一件事就值几百万的事情。但我们公司不是这么运转的。我们不会给每件事都配一个博士。对很多 knowledge work 任务,某个时间点上我们一定会达到“够用”,一旦够用,你就可以去优化别的东西——本地跑、更便宜、更快。绝对智力本身不是我特别关心的事。我觉得社会在很大程度上并不是被智力限制住的。Tyler Cowen 说过类似的话,我不想替他下结论。我对 exoskeleton 这条路远比对“在某个数据中心的盒子里有一个神,我们大家在外面无所事事”更感兴趣。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">我们是不是早就发明了 UBI,只是把它包装成了 knowledge work?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">是的——knowledge work 本质上就是 UBI,因为我们生活真正需要的,远远少于工作假装去支撑的那些理由。</p>
+          </summary>
+          <blockquote>Host: 临近结束,我想聊一下你那个关于 universal basic income 的 hot take。现在有一种说法是,AI 出现之后我们可能就不需要工作了,大家都领点 UBI 然后享受生活。而你的 hot take 是,也许我们已经有了 universal basic income。这是怎么回事?
+
+Max: 是的,这里请稍微包容我一下,因为这话我半是玩笑半是认真——取决于你从人性的哪个高度去看。我的观点是:我们已经有了 universal basic income,它叫做 knowledge work。我也不把自己的工作排除在外。但如果你真的去看,我们要活着、要过得满足,实际上需要的东西要少得多。我们建起了这一整套等级和这么多“绝对必要”的工作和事情。在我看来,我们已经有了它。这就是 UBI。然后我们作为人类——因为我们是宇宙中最重要的物种——一定会再想出别的方法,把自己塞进围绕 agent 的对话里。它会长得一样吗?我不知道。但我们如此富有创造力,我们总能想出新的理由,证明我们必须留在那个 loop 里。
+
+Host: 大家以前就开玩笑说,我们坐在电脑前,把对的词和字母敲进去,就能拿到这么高的薪水。现在变成“噢,以后我可能拿不到这么多钱了,因为 AI 要来了”。你的观点其实是:这本来就是一份相当甜的工作。好好享受这份 UBI 吧。
+
+Max: 是的。综合来看,我们多幸运啊。我现在坐在一个开着空调的房间里跟你聊天,过得挺开心。不是所有人都有这种运气,但讨论这件事讨论得最多的那群人,正是处在“运气好”那一桶里的。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">first-mover advantage 还重要吗,还是说做对了才会赢?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">你得做对,而不是做第一——AirPods、iPod 和 Anthropic 都是后来才入场,靠把事情做对赢下来的。</p>
+          </summary>
+          <blockquote>Host: 我听你也讲过,“做第一”其实没那么重要。
+
+Max: 你得对,而不是第一。我的意思是,network effects 这类东西确实可能有,而且现在训练模型,先发或许是有道理的。但我觉得这件事被高估了。我最喜欢的例子是,Bluetooth 耳机以前其实挺烂,然后有了 AirPods——一下就能连上,等等——它们也不是第一个。也不是第一台 MP3 播放器。你只要把它做对就行了。我不觉得做第一有多大用。现在因为吸引注意力太难,我们就会去想——“噢,我怎么火?我怎么做最酷的事?”——我会说,嗯,持久性才重要。想想你会怎么去做 IKEA 那样的一代代延续下去的公司,而不是为今天 Twitter 上的某个热点忙活。
+
+Host: 说到模型,一个很好的例子就是 Anthropic,它起步比 OpenAI 晚,融资也少很多,现在却在不断领跑。
+
+Max: 我觉得最了不起的——当然你得给 CEO 也就是 Dario 很大功劳——是他不是在 OpenAI 那次只是运气好。同样的事他做成了两次。这才是真的酷。</blockquote>
+        </details>
+      </li>
+      <li class="qa-item">
+        <div class="qa-num"></div>
+        <details class="qa-body">
+          <summary class="qa-summary">
+            <div class="qa-header-row">
+              <h2 class="qa-question">工程师怎么判断自己的 agent 流程到底搭得好不好?</h2>
+              <span class="qa-toggle" aria-hidden="true"></span>
+            </div>
+            <p class="qa-answer">代码里每一次手动修改,都应该让你有点像是 verifiability loop 里出了 bug 的感觉——而不是工作日常。</p>
+          </summary>
+          <blockquote>Host: 在 Notion 内部,你看到什么真正起作用的方式,能让人显著改变他们的工作方式?
+
+Max: 看角色。离工程比较远的那些角色,你根本不需要怎么说服他们,因为他们会说“哇,我现在有 superpower 了,看我刚做出来的这个东西”——他们以前能做的事,和现在能做的事之间的能力差距太大了,大到让人上瘾。然后你几乎要做相反的事,就是“好,但是你理解为什么这个 PR 不能 merge 吗?”
+
+Max: 工程这一边,Simon Last 经常讲的一件事是:任何对代码的手动干预其实都是不好的信号。说明你大概在 verifiability loop 里、在你的 software factory 里搞错了什么。这里显然不包括 code review——我仍然非常坚定地认为“你大概应该在 review 代码上花更多精力”。但至少在写代码这一侧,每一次有人为干预,都应该让人感觉有点像一个 bug。我觉得这是判断你“agent-pilled”到什么程度的一个不错的试金石。</blockquote>
+        </details>
+      </li>
+    </ol>
+  </main>
+</body>
+</html>
