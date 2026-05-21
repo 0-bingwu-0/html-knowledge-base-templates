@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Startup Ideas from CS183B</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #15130f;
+      --bg-tint: radial-gradient(
+        ellipse 1100px 700px at 20% -10%,
+        rgba(251, 146, 60, 0.07),
+        transparent 60%
+      );
+      --surface: #1d1a15;
+      --surface-soft: #25211b;
+      --text: #f4ede0;
+      --text-secondary: #b8ad99;
+      --text-tertiary: #7a7060;
+      --border: rgba(244, 237, 224, 0.08);
+      --border-strong: rgba(244, 237, 224, 0.18);
+      --accent: #fb923c;
+      --accent-strong: #fdba74;
+      --accent-soft: rgba(251, 146, 60, 0.12);
+      --accent-glow: rgba(251, 146, 60, 0.22);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --font-serif: "Source Serif 4", Georgia, "Songti SC", serif;
+      --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      background-image: var(--bg-tint);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 96px 32px 140px;
+    }
+
+    /* ── Header ───────────────────────────── */
+    header.page-header {
+      margin-bottom: 80px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      padding: 6px 12px 6px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-soft);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      margin-bottom: 32px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+      margin-right: 10px;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -0.022em;
+      font-weight: 500;
+      margin: 0 0 24px;
+      max-width: 760px;
+    }
+
+    .lede {
+      font-size: 17.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin: 0;
+    }
+
+    /* ── Section label ────────────────────── */
+    .section-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .section-label .title {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .section-label .title::before {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .section-label .count {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Case list ────────────────────────── */
+    .case-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      counter-reset: case-counter;
+    }
+
+    .case-list > li {
+      counter-increment: case-counter;
+    }
+
+    article.case {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px 34px 28px 38px;
+      margin-top: 20px;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.3s ease,
+        transform 0.25s ease, background 0.25s ease;
+    }
+
+    article.case::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 18px;
+      bottom: 18px;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 0 3px 3px 0;
+      opacity: 0.6;
+      transition: opacity 0.25s ease, box-shadow 0.3s ease;
+    }
+
+    article.case:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-soft);
+      box-shadow: 0 18px 48px -24px var(--accent-glow),
+        0 0 0 1px var(--accent-soft);
+      transform: translateY(-2px);
+    }
+
+    article.case:hover::before {
+      opacity: 1;
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+
+    .case-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .case-name-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .case-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+      padding-top: 2px;
+    }
+
+    .case-num::before {
+      content: counter(case-counter, decimal-leading-zero);
+    }
+
+    .case-name {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: -0.012em;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .case-meta {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      flex-shrink: 0;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: rgba(244, 237, 224, 0.025);
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px 32px;
+    }
+
+    .case-block .label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 10px;
+    }
+
+    .case-block p {
+      font-size: 14px;
+      line-height: 1.72;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .case-block.pattern {
+      padding: 16px 18px;
+      background: linear-gradient(
+        135deg,
+        var(--accent-soft),
+        rgba(251, 146, 60, 0.04)
+      );
+      border: 1px solid var(--accent-soft);
+      border-radius: 8px;
+      align-self: start;
+    }
+
+    .case-block.pattern .label {
+      color: var(--accent);
+    }
+
+    .case-block.pattern p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14.5px;
+      color: var(--accent-strong);
+      line-height: 1.6;
+    }
+
+    /* ── Footer ───────────────────────────── */
+    footer {
+      margin-top: 88px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+    }
+
+    /* ── Entrance animation ───────────────── */
+    header.page-header,
+    .section-label,
+    .case-list > li,
+    footer {
+      animation: fadeUp 0.6s ease backwards;
+    }
+
+    header.page-header { animation-delay: 0s; }
+    .section-label    { animation-delay: 0.08s; }
+    .case-list > li:nth-child(1) { animation-delay: 0.14s; }
+    .case-list > li:nth-child(2) { animation-delay: 0.2s; }
+    .case-list > li:nth-child(3) { animation-delay: 0.26s; }
+    .case-list > li:nth-child(4) { animation-delay: 0.32s; }
+    .case-list > li:nth-child(5) { animation-delay: 0.38s; }
+    .case-list > li:nth-child(n + 6) { animation-delay: 0.44s; }
+    footer { animation-delay: 0.5s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ───────────────────────── */
+    @media (max-width: 820px) {
+      main { padding: 64px 22px 96px; }
+      header.page-header { margin-bottom: 56px; }
+      h1 { font-size: 38px; }
+      .lede { font-size: 16px; }
+      article.case { padding: 24px 22px 22px; }
+      .case-grid { grid-template-columns: 1fr; gap: 22px; }
+      .case-name { font-size: 22px; }
+      .case-header { gap: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header class="page-header">
+      <div class="eyebrow">Knowledge atlas &middot; CS183B</div>
+      <h1>Startup Ideas from CS183B</h1>
+      <p class="lede">Every startup the lecturers used as a teaching example &mdash; the original context, what happened later, and the pattern they were illustrating.</p>
+    </header>
+
+    <div class="section-label">
+      <span class="title">Companies</span>
+      <span class="count">24 entries</span>
+    </div>
+
+    <ol class="case-list">
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Airbnb</h3>
+            </div>
+            <span class="case-meta">Lecture 1 &middot; Lecture 2 &middot; Lecture 3 &middot; Lecture 6 &middot; Lecture 7 &middot; Lecture 9 &middot; Lecture 10 &middot; Lecture 13</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Brian Chesky and Joe Gebbia were design-school roommates who turned their San Francisco apartment into an air-bed-and-breakfast for a sold-out design conference because Brian had a thousand dollars in the bank and rent was eleven-fifty. Airbnb was never meant to be the big idea, just a way to pay the rent while they thought of one. Most investors passed; the idea of strangers staying in your house was widely considered nuts. In the early scrappy days the founders went to New York to take professional photos of hosts&rsquo; apartments themselves, and Joe Gebbia wore a phone headset all day doing support nonstop.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Airbnb grew into a global lodging marketplace, raised a billion-dollar growth round led by Andreessen Horowitz in 2011, and went public in 2020 at a valuation in the tens of billions.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>The most powerful startup ideas often look like two terrible ideas stacked together, and the founders who win them are the ones still doing unscalable manual work after most people would have quit.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Facebook</h3>
+            </div>
+            <span class="case-meta">Lecture 1 &middot; Lecture 3 &middot; Lecture 5 &middot; Lecture 6 &middot; Lecture 8</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Mark Zuckerberg succeeded despite being a complete noob at startups &mdash; Facebook was first incorporated as a Florida LLC &mdash; because he understood his users very well. The initial market was ten thousand people at Harvard and the site went from zero to sixty percent share in ten days. The first version was almost comically simple. By the time it hit fifty million users, internal teams genuinely doubted whether any social network could ever cross a hundred million, and a dedicated growth team was assembled around the insight that getting a new user to ten friends in fourteen days was the magic moment.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Facebook crossed a billion monthly active users and became one of the most valuable companies in the world, and by 2014 was the dominant social platform globally.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Start with a tiny market you can dominate completely, pick one north-star metric that captures real engagement, and obsess over the magic moment that gets a new user there.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Google</h3>
+            </div>
+            <span class="case-meta">Lecture 1 &middot; Lecture 3 &middot; Lecture 5</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Google was not the first search engine, but it was the first to use PageRank &mdash; an automated approach that was an order of magnitude better than every portal that came before it. The first version was just a webpage with a textbox and two buttons; it returned the best results, and that is why users loved it. It started as a side project, not as a company.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Google became the dominant search engine globally with roughly sixty-six percent market share, accumulated tens of billions in cash, and by 2014 was reframing itself as an advertising or technology company to deflect monopoly scrutiny.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>A ten-times improvement on the single dimension users actually care about beats a portal with everything else bolted on.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Pinterest</h3>
+            </div>
+            <span class="case-meta">Lecture 1 &middot; Lecture 11</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>When everyone thought Pinterest was a joke, Ben Silbermann recruited initial users by chatting up strangers in Palo Alto coffee shops and quietly setting all the browsers in the local Apple store to the Pinterest homepage before staff kicked him out. He hired the first employees by putting ads on Craigslist, going to random tech talks, and hosting bring-your-own-food barbecues at the office. He read every culture book he could find and treated the question of who to hire and what they valued as something to garden, not architect.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Pinterest grew into a large visual-discovery platform with hundreds of millions of users and went public on the NYSE in 2019.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>When no one has heard of your product yet, the founders have to do embarrassing, manual user-acquisition work themselves, and the early hires they grind to find determine the DNA of everything that follows.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Asana</h3>
+            </div>
+            <span class="case-meta">Lecture 1</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Justin Rosenstein and Dustin Moskovitz were reluctant entrepreneurs working at Facebook on an internal task manager. They would work all day on their normal projects and then keep working on the task manager at night, because they could see the impact it was having internally and were convinced no one else was going to build the version they thought was right. The idea was beating itself out of their chests.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Asana was founded and grew into a publicly traded work-management platform, listing on the NYSE in 2020.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>The right startup idea is one you cannot stop working on even when no one is asking you to &mdash; and that often means leaving a comfortable, high-leverage job to build it.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">SpaceX</h3>
+            </div>
+            <span class="case-meta">Lecture 1 &middot; Lecture 5</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>SpaceX is cited as an example of an idea that is totally new &mdash; not a clone with a small differentiator. Peter Thiel argues there was no single ten-times breakthrough in rocketry; what was impressive was vertical integration. Most large aerospace companies single-source subcontractors who charge monopoly margins, and SpaceX pulled all of those pieces in-house.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>SpaceX became the dominant private launch provider, achieved reusable orbital rockets, and reached a valuation in the hundreds of billions.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Sometimes the monopoly does not come from one breakthrough &mdash; it comes from vertically integrating an entire stack of subcontractors who were each extracting margin.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Apple</h3>
+            </div>
+            <span class="case-meta">Lecture 1 &middot; Lecture 2 &middot; Lecture 5</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Apple is cited repeatedly as a company that started as a side project, not a planned company, and whose products users loved because they were dramatically simpler than the alternatives. The iPhone was far simpler to use than any smartphone that came before it and was the first one users really loved &mdash; possibly not the first smartphone that worked, but enough of an order-of-magnitude improvement to feel like an infinite one. When Apple was recruiting for the iPhone, candidates were not even told what they would be working on; they were told they would not see their families for three years but their kids would remember what they built.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Apple became one of the most valuable public companies in the world, with the iPhone defining the modern smartphone category.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>A product users love is usually one that is comically simple to start using, sold by a recruiting pitch that promises real hardship in exchange for real legacy.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">PayPal</h3>
+            </div>
+            <span class="case-meta">Lecture 5 &middot; Lecture 13</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>PayPal&rsquo;s original plan was to beam cash between Palm Pilots at restaurants &mdash; splitting the dinner tab in PDA-central. They realized cash-on-PalmPilots would not work even before launch, and pivoted to email payments. The first real market was about twenty thousand power sellers on eBay; internally those customers were initially seen as terrible &mdash; people selling junk on the internet &mdash; but the product was more than ten times faster than mailing a check, and PayPal captured twenty-five to thirty percent of that market in two or three months. In August 2000 the company was bringing in twelve million in expenses with no revenue and an exponentiating burn curve.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>PayPal went public in 2002 and was acquired by eBay shortly after, eventually spinning back out as a public company and reaching a multi-tens-of-billions valuation.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Dominate a small market everyone else dismisses, then expand concentrically &mdash; and when the original plan hits a minefield, pivot fast on the same vision.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">eBay</h3>
+            </div>
+            <span class="case-meta">Lecture 5 &middot; Lecture 6</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>eBay started with what looked like an unserious market &mdash; Pez dispensers, then Beanie Babies, then ever-broader collectibles auctions. The business-school read at the time was that the market was so small it could not possibly be valuable. The internal north-star metric was gross merchandise volume, not revenue, because eBay was a pure marketplace; gross merchandise volume ran roughly ten times revenue.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>eBay scaled into a global auction and marketplace platform worth tens of billions, and ultimately spun out PayPal as a separate public company.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Markets that look laughably small and weird at the start are often the only ones where you can get to dominant share before anyone takes you seriously.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Amazon</h3>
+            </div>
+            <span class="case-meta">Lecture 5 &middot; Lecture 6 &middot; Lecture 7</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Amazon started in the 1990s as just a bookstore, but a bookstore with over ten times as many books as anyone else &mdash; an order-of-magnitude advantage in a category that did not look high-tech. From there it gradually expanded concentrically into other forms of e-commerce. The company is cited as a logistics-first market leader: best-price dominance achieved by relentless investment in distribution and operations.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Amazon became one of the most valuable companies in the world, expanding from books into general retail, cloud (AWS), devices, and media.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Win a narrow category on a clear order-of-magnitude advantage, then expand outward from a position of dominance instead of attacking a giant market on day one.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Palantir</h3>
+            </div>
+            <span class="case-meta">Lecture 5 &middot; Lecture 12</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Palantir started by focusing on the intelligence community &mdash; a small, hard-to-reach submarket &mdash; with a proprietary technology built around human-computer synthesis rather than the dominant paradigm of pure automation. Enterprise customers came to Palantir with long feature lists, and the team&rsquo;s job was to distill those lists into a single simple solution to a problem the customer would not have been able to articulate.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Palantir grew into a publicly listed enterprise software company (NYSE: PLTR, 2020) serving government and large enterprise customers.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>In enterprise, the right move is rarely to build exactly what the customer asks for &mdash; it is to translate their tangled problems into the simplest solution they could not have specified themselves.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Square</h3>
+            </div>
+            <span class="case-meta">Lecture 5 &middot; Lecture 8 &middot; Lecture 14</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Square is cited alongside PayPal as one of several mobile-payment players differentiated mostly by shape. It is referenced as a hyper-growth company &mdash; Keith Rabois joined as employee number twenty and two and a half years later the company had 253 employees, in contrast to LinkedIn&rsquo;s much more linear curve. Early DoorDash used Square to charge customers and was briefly shut down by Square&rsquo;s anti-money-laundering systems because small fifteen-to-twenty-dollar orders were coming in too fast.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Square went public in 2015 and rebranded as Block, building out a broader financial-services stack.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Some companies grow linearly and some explode, and the right pace of hiring and management has to match the actual curve the business is on.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Tesla</h3>
+            </div>
+            <span class="case-meta">Lecture 5</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Tesla is cited by Peter Thiel as a vertically integrated monopoly. There was no single ten-times breakthrough in battery storage; what was impressive was integrating distribution end to end. Tesla pulled the car dealers in-house so they would not steal all the margin the way they had with the rest of the US auto industry.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Tesla scaled into the dominant electric-vehicle manufacturer and one of the most valuable public companies in the world.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Vertical integration is an under-explored route to monopoly when the existing industry&rsquo;s value chain is full of rent-extracting intermediaries.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">WhatsApp</h3>
+            </div>
+            <span class="case-meta">Lecture 6</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>WhatsApp had announced six hundred million active users by the time of the lecture. Internally and externally Jan Koum had picked a single metric &mdash; sends &mdash; and published it relentlessly, because for a messaging app the single most important number is whether people are actually using you as their primary messaging mechanism. WhatsApp&rsquo;s sign-up flow, like LinkedIn&rsquo;s and Twitter&rsquo;s, was engineered to push users to the contacts and conversations that matter as quickly as possible.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>WhatsApp was acquired by Facebook in February 2014 for approximately $19 billion, the largest software acquisition at the time.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>A founder-led obsession with one true north-star metric, published openly, is what aligns a whole company on what real growth actually means.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Wufoo</h3>
+            </div>
+            <span class="case-meta">Lecture 7</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Kevin Hale and his cofounders went through Y Combinator in Winter 2006 and built Wufoo, an online form builder that looked like it was designed by Fisher-Price. They ran the company from Florida with ten people working from home, no office, and were profitable nine months after launch. They raised only about $118,000 total. The team obsessed over making customers love them: every engineer did customer support shifts, they handwrote thank-you cards at Christmas, and they tracked nothing more carefully than the gap between sign-ups and downgrades.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Wufoo was acquired by SurveyMonkey in 2011; investor return was reported as roughly 29,561 percent on the original capital.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Reducing churn by one percent is mathematically identical to raising conversion by one percent, but it&rsquo;s cheaper, and the way you do it is by making customer support a discipline the whole company practices.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Twitch</h3>
+            </div>
+            <span class="case-meta">Lecture 8 &middot; Lecture 16</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Twitch began as Justin.tv &mdash; a website built around a reality show of Justin Kan&rsquo;s life. Emmett Shear and Justin Kan were their own users, which let them get away with not talking to anyone else, but it also capped how big the product could get. They eventually pivoted: Emmett led a gaming initiative, ran a large number of user interviews with broadcasters, and built an entire division whose job was to talk to power users. He had a twenty-six-page document of broadcaster feedback. When the company started, no one in the gaming industry had heard of them; PR strategy was to target game-dev blogs and industry trades, not mainstream press.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Twitch was acquired by Amazon in 2014 and grew into the dominant live-streaming platform for gamers, reportedly reaching tens of millions of unique viewers.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>When you are not your own user, the only way to find a real product is to talk to actual users in detail and let a separate function inside the company own that conversation.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">DoorDash</h3>
+            </div>
+            <span class="case-meta">Lecture 8</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Stanley Tang and his cofounders started DoorDash while still Stanford students. They were the delivery drivers themselves, taking customer-support phone calls during lectures and passing out flyers on University Avenue. They had no dispatch system: they charged customers through Square, tracked orders in a Google Doc, and used Apple&rsquo;s Find My Friends to track drivers. Square once shut them down on suspicion of money laundering because so many small fifteen-to-twenty-dollar transactions came in at once; the cofounder had to email friends at Square to unblock the account.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>DoorDash raised a Series A from Sequoia, scaled into the dominant US on-demand food delivery company, and went public on the NYSE in 2020.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>At the start, hacking together unscalable workflows from off-the-shelf consumer apps is not a sign of weakness &mdash; it is the fastest way to test whether the demand is real.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Teespring</h3>
+            </div>
+            <span class="case-meta">Lecture 8</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Walker Williams nearly got rejected from Y Combinator. In 2012 Teespring looked terrible: days of meetings, free designs, rounds of revisions, all to sell about fifty shirts to a local nonprofit for around a thousand dollars in revenue. The product crashed every night for stretches of months; the whole team slept with phones loud under their pillows to restart the server. Walker still answered customer-service tickets at scale and personally did ten to twenty support cases a day.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Teespring grew to roughly 180 employees shipping tens of thousands of products a day, with hundreds of millions in revenue at the time of the lecture; outcome beyond that is not stated in the lectures.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Founders should fight to keep doing the painful unscalable work &mdash; talking to users, running support &mdash; for as long as possible, because that is where product-market fit actually lives.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Socialcam</h3>
+            </div>
+            <span class="case-meta">Lecture 8</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Socialcam was a spinoff of Justin.tv. The PR goal was to be positioned as video Instagram so Silicon Valley investors and influencers would see it as the new hot social app. Press strategy was matched specifically to that business goal.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Socialcam was acquired by Autodesk in 2012 for $60 million.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Press is not a meritocracy &mdash; every press goal should be tied to a specific business outcome, not to generic visibility.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Exec</h3>
+            </div>
+            <span class="case-meta">Lecture 8</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Exec was a local on-demand cleaning and errands service in San Francisco. The PR goal was just to acquire customers locally, so the team targeted the SF Chronicle instead of national tech press &mdash; national coverage was useless because ninety-nine percent of those readers could not actually use the product.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Exec was acquired by Handybook (later Handy) in 2014; the acquiring company later announced reaching a million dollars a week in revenue.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>For local on-demand businesses, local press converts and national press is vanity &mdash; choose the channel that reaches buyers, not the one that flatters.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Stripe</h3>
+            </div>
+            <span class="case-meta">Lecture 11</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>John and Patrick Collison were still in college when they started Stripe. They had no network to draw from, so the first ten hires came from friends-of-friends over a long stretch. For their second employee, the candidate&rsquo;s best friends took him out the night before he accepted to mount a full-on assault on the idea of joining. The Collisons worked with each early candidate for about a week before committing, flying engineers out for weekend coding sessions because that was the only way they could tell whether someone was actually good. From the start the company was built around radical internal transparency &mdash; at 170 people they had invested heavily in tooling so that the firehose of information was actually consumable.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Stripe scaled into the dominant developer-facing payments platform and reached a private valuation in the tens of billions.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>The first ten hires define a company more than any later batch, so it is worth weeks of working alongside each candidate and ignoring every conventional interview script that does not fit your domain.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">LinkedIn</h3>
+            </div>
+            <span class="case-meta">Lecture 13 &middot; Lecture 14</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>When Reid Hoffman pitched LinkedIn around 2003, two-thirds of his network &mdash; including very smart people &mdash; thought he was nuts, because a network product has no value with one user, and the use case only kicks in around half a million to a million people. The web was considered boring in 2003; everyone had moved to enterprise and clean-tech, so breaking through the noise was easier than it would be later. LinkedIn was always linear, never a rocket ship &mdash; Reid joined eighteen months after launch when there were 1.5 million users, and the company went from twenty-seven employees to fifty-seven over two and a half years.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>LinkedIn went public in 2011 and was acquired by Microsoft in 2016 for $26 billion.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Compounding linear growth, sustained over years against a clear investment thesis, can build a category-defining company even without a rocket-ship moment.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Groupon</h3>
+            </div>
+            <span class="case-meta">Lecture 13</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Reid Hoffman uses Groupon as the example of a company that could not have been founded in Silicon Valley. Even though it is a software product that generates network effects, the early business required a massive sales force &mdash; twenty stories of salespeople in a twenty-five-story building. Silicon Valley is structurally hostile to that kind of plan: financiers want capital efficiency and network effects, not floors of door-to-door sellers, and talent does not aggregate around it.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Groupon went public on NASDAQ in 2011 and grew to a multibillion-dollar local-commerce business before declining significantly from its peak.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>Where you locate a company matters: some businesses live or die on labor models that one ecosystem reveres and another reflexively rejects.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+      <li>
+        <article class="case">
+          <div class="case-header">
+            <div class="case-name-row">
+              <span class="case-num" aria-hidden="true"></span>
+              <h3 class="case-name">Jawbone</h3>
+            </div>
+            <span class="case-meta">Lecture 17</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-block">
+              <div class="label">Context at the time</div>
+              <p>Hosain Rahman built Jawbone right out of engineering school as a core-technology company that became consumer hardware, starting with a Bluetooth headset that was essentially a wearable computer, then wireless speakers, then wearable health trackers (Up). The company organized itself around a &ldquo;full stack&rdquo; thesis &mdash; great hardware, great software, great data &mdash; and described an unusually deliberate, multi-phase product development process from exploration through validation, planning, development, and iteration, anchored in demo Fridays and hack-a-thons.</p>
+            </div>
+            <div class="case-block">
+              <div class="label">What happened later</div>
+              <p>Jawbone&rsquo;s wearables business ultimately failed; the company shut down its consumer hardware operations in 2017, two and a half years after this lecture was recorded.</p>
+            </div>
+            <div class="case-block pattern">
+              <div class="label">Pattern</div>
+              <p>In hardware, the vision of a &ldquo;full stack&rdquo; is seductive, but iteration cycles measured in sixteen-week tooling runs make it brutally unforgiving when any one layer falls behind.</p>
+            </div>
+          </div>
+        </article>
+      </li>
+    </ol>
+
+    <footer>Compiled from Stanford CS183B (Fall 2014) &middot; startupclass.samaltman.com</footer>
+  </main>
+</body>
+</html>

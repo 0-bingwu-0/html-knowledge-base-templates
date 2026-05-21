@@ -29,6 +29,7 @@ This repo is a collection of them. Each kit is a template plus the skill that fi
 Each top-level folder is a self-contained **kit** — a template + its skill(s) + a sample:
 
 - [`podcast-question-cards/`](podcast-question-cards/) — long-form interview transcripts → Q&A knowledge cards with expandable source passages
+- [`lecture-case-cards/`](lecture-case-cards/) — course lecture transcripts → company case-study cards (sample corpus: Stanford CS183B)
 
 (more kits to come)
 
