@@ -2,6 +2,8 @@
 
 HTML templates for knowledge bases, paired with the skills that fill them in.
 
+> **Need an app to view and organize the output?** The generated files are self-contained HTML and open in any browser, but if you want a knowledge-base app for them, try [stashbase](https://github.com/liliu-z/stashbase).
+
 ## Why HTML for notes
 
 HTML used to lose because humans had to write it.
